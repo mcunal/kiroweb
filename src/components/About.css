@@ -1,0 +1,119 @@
+.about-section {
+  background: var(--light-gray);
+}
+
+.about-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+.about-description {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  margin-bottom: 2rem;
+  color: var(--dark-gray);
+}
+
+.about-features {
+  display: grid;
+  gap: 2rem;
+  margin-top: 3rem;
+}
+
+.feature {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.feature-icon {
+  font-size: 2rem;
+  flex-shrink: 0;
+}
+
+.feature h4 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--primary-blue);
+  margin-bottom: 0.5rem;
+}
+
+.feature p {
+  color: var(--dark-gray);
+  line-height: 1.6;
+}
+
+.about-visual {
+  position: relative;
+  height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.science-elements {
+  position: relative;
+  width: 300px;
+  height: 300px;
+}
+
+.element {
+  position: absolute;
+  border-radius: 50%;
+  animation: orbit 15s linear infinite;
+}
+
+.dna {
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(45deg, var(--primary-blue), var(--accent-blue));
+  top: 20%;
+  left: 20%;
+  animation-delay: 0s;
+}
+
+.cell {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(45deg, var(--accent-blue), #7BB3F0);
+  top: 60%;
+  right: 20%;
+  animation-delay: -5s;
+}
+
+.molecule {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(45deg, #7BB3F0, var(--primary-blue));
+  bottom: 30%;
+  left: 50%;
+  animation-delay: -10s;
+}
+
+@keyframes orbit {
+  0% { transform: rotate(0deg) translateX(50px) rotate(0deg); }
+  100% { transform: rotate(360deg) translateX(50px) rotate(-360deg); }
+}
+
+@media (max-width: 768px) {
+  .about-content {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .about-visual {
+    height: 250px;
+  }
+
+  .science-elements {
+    width: 200px;
+    height: 200px;
+  }
+
+  .feature {
+    flex-direction: column;
+    text-align: center;
+  }
+}

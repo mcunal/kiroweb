@@ -1,0 +1,109 @@
+/* === BÖLÜM VE BAŞLIK İÇİN TEMEL STİLLER === */
+/* Bu kısım diğer CSS dosyalarınızdan silinmeli */
+.section {
+  padding: 60px 0;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.section-title {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 40px;
+}
+
+/* --- */
+
+/* === SLIDER: TÜM EKRANLARDA GEÇERLİ ANA STİLLER === */
+.products-slider {
+  display: flex;
+  overflow-x: auto;
+  gap: 20px;
+  padding: 10px 0 20px 0;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.products-slider::-webkit-scrollbar {
+  display: none;
+}
+
+/* --- */
+
+/* === ÜRÜN KARTI: TÜM EKRANLARDA GEÇERLİ ANA STİLLER === */
+.product-slide {
+  flex: 0 0 300px;
+  scroll-snap-align: start;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.product-slide:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.product-img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+.product-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+  min-height: 50px;
+}
+
+.product-price {
+  font-size: 1.3rem;
+  color: #e63946;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.product-category {
+  font-size: 0.9rem;
+  color: #555;
+  margin-bottom: 15px;
+}
+
+.btn.btn-primary {
+  background: #1d3557;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.btn.btn-primary:hover {
+  background: #457b9d;
+}
+
+/* --- */
+
+/* === MOBİL UYUMLULUK: SADECE 768PX ALTINDAKİ EKRANLAR İÇİN DEĞİŞİKLİKLER === */
+@media (max-width: 768px) {
+  .product-slide {
+    flex: 0 0 80% !important;
+  }
+
+  .product-img {
+    height: 160px;
+  }
+}

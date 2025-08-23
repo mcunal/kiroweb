@@ -24,19 +24,19 @@ const Contact = () => {
   return (
     <section id="contact" className="section contact-section">
       <div className="container">
-        <h2 className="section-title">Get In Touch</h2>
+        <h2 className="section-title">İletişime Geçin</h2>
         <div className="contact-content">
           <div className="contact-info">
-            <h3>Let's Connect</h3>
+            <h3>Bağlantı Kuralım</h3>
             <p>
-              Have questions about our products or want to collaborate? 
-              We'd love to hear from you!
+              Ürünlerimiz hakkında sorularınız mı var veya iş birliği mi yapmak
+              istiyorsunuz? Sizden haber almak isteriz!
             </p>
             <div className="contact-methods">
               <div className="contact-method">
                 <div className="method-icon">📧</div>
                 <div>
-                  <h4>Email</h4>
+                  <h4>E-posta</h4>
                   <p>hello@luminesans.com</p>
                 </div>
               </div>
@@ -50,7 +50,7 @@ const Contact = () => {
               <div className="contact-method">
                 <div className="method-icon">🌐</div>
                 <div>
-                  <h4>Website</h4>
+                  <h4>Web Sitesi</h4>
                   <p>www.luminesans.com</p>
                 </div>
               </div>
@@ -58,7 +58,7 @@ const Contact = () => {
           </div>
           <form className="contact-form" onSubmit={handleSubmit}>
             <div className="form-group">
-              <label htmlFor="name">Name</label>
+              <label htmlFor="name">İsim</label>
               <input
                 type="text"
                 id="name"
@@ -69,7 +69,7 @@ const Contact = () => {
               />
             </div>
             <div className="form-group">
-              <label htmlFor="email">Email</label>
+              <label htmlFor="email">E-posta</label>
               <input
                 type="email"
                 id="email"
@@ -80,7 +80,7 @@ const Contact = () => {
               />
             </div>
             <div className="form-group">
-              <label htmlFor="message">Message</label>
+              <label htmlFor="message">Mesaj</label>
               <textarea
                 id="message"
                 name="message"
@@ -90,7 +90,7 @@ const Contact = () => {
                 required
               ></textarea>
             </div>
-            <button type="submit" className="btn btn-primary">Send Message</button>
+            <button type="submit" className="btn btn-primary">Mesaj Gönder</button>
           </form>
         </div>
       </div>

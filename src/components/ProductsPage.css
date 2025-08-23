@@ -31,6 +31,11 @@
     flex-wrap: wrap;
     justify-content: center;
     gap: 10px;
+    width: 100%;
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 12px;
+    box-sizing: border-box;
 }
 
 .category-btn {
@@ -39,17 +44,29 @@
     border-radius: 20px;
     cursor: pointer;
     background-color: #ccc;
+    color: #333;
+    /* Tüm butonların varsayılan yazı rengi */
     transition: all 0.3s ease;
 }
 
-.category-btn:hover {
+/* Sadece aktif olmayan butonların üzerine gelindiğinde uygulanacak stil */
+.category-btn:not(.active):hover {
     background-color: #ddd;
+    color: #333;
+    /* Pasif butonun üzerine gelindiğinde yazının görünür kalmasını sağlar */
 }
 
 .category-btn.active {
     background-color: #1d3557;
     color: white;
     border-color: #1d3557;
+}
+
+.category-btn.active:hover {
+    background-color: #457b9d;
+    border-color: #457b9d;
+    color: #fff;
+    /* Aktif butonun üzerine gelindiğinde yazının beyaz kalmasını sağlar */
 }
 
 .products-grid {

@@ -5,11 +5,11 @@ import "./App.css";
 // Bileşenleri import ediyoruz
 import Header from "./components/Header";
 import Hero from "./components/Hero";
-import About from "./components/About";
-import Contact from "./components/Contact";
 import Footer from "./components/Footer";
-import Products from "./components/Products"; // Bu, ana sayfadaki slider için kullanılacak
-import ProductsPage from "./components/ProductsPage"; // Yeni oluşturduğunuz tüm ürünler sayfası
+import Products from "./components/Products";
+import ProductsPage from "./components/ProductsPage";
+import Hakkimizda from "./components/Hakkimizda";
+import Iletisim from "./components/iletisim";
 import Admin from "./pages/Admin";
 
 function App() {
@@ -18,7 +18,7 @@ function App() {
       const savedProducts = localStorage.getItem("products");
       return savedProducts ? JSON.parse(savedProducts) : [];
     } catch (error) {
-      console.error("Failed to parse products from localStorage", error);
+      console.error("Ürünler localStorage'dan okunurken bir hata oluştu", error);
       return [];
     }
   });
@@ -75,13 +75,9 @@ function App() {
           path="/"
           element={
             <>
-              <Hero />
+              <Hero products={products} />
               {/* Ana sayfadaki Products bölümü artık filtreleme ve kategori seçimini içermiyor */}
-              {/* Sadece bir ürün slaytı veya öne çıkan ürünler gösterilebilir */}
-              {/* Bu bileşene tüm ürünleri gönderiyoruz, filtreleme artık ProductsPage'de */}
               <Products products={products} />
-              <About />
-              <Contact />
             </>
           }
         />
@@ -91,6 +87,12 @@ function App() {
           path="/products"
           element={<ProductsPage products={products} />}
         />
+
+        {/* Yeni Hakkımızda Sayfası Route'u */}
+        <Route path="/hakkimizda" element={<Hakkimizda />} />
+
+        {/* Yeni İletişim Sayfası Route'u */}
+        <Route path="/iletisim" element={<Iletisim />} />
 
         {/* Admin Sayfası Route'u */}
         <Route

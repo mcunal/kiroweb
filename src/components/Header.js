@@ -11,15 +11,15 @@ const Header = () => {
         <div className="nav-wrapper">
           <div className="logo">
             <span className="logo-text">LÜMINESANS</span>
-            <span className="logo-tagline">GLOW WITH US</span>
+            <span className="logo-tagline">BİZİMLE PARLA</span>
           </div>
 
           <nav className={`nav ${isMenuOpen ? 'nav-open' : ''}`}>
             {/* a etiketleri Link bileşenlerine dönüştürüldü */}
-            <Link to="/" className="nav-link">Home</Link>
-            <Link to="/products" className="nav-link">Products</Link>
-            <Link to="/about" className="nav-link">About</Link>
-            <Link to="/contact" className="nav-link">Contact</Link>
+            <Link to="/" className="nav-link">Ana Sayfa</Link>
+            <Link to="/products" className="nav-link">Ürünler</Link>
+            <Link to="/hakkimizda" className="nav-link">Hakkımızda</Link>
+            <Link to="/iletisim" className="nav-link">İletişim</Link>
           </nav>
 
           <button

@@ -1,5 +1,6 @@
 import React from 'react';
 import './Footer.css';
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
   return (
@@ -9,49 +10,47 @@ const Footer = () => {
           <div className="footer-brand">
             <div className="logo">
               <span className="logo-text">LÜMINESANS</span>
-              <span className="logo-tagline">GLOW WITH US</span>
+              <span className="logo-tagline">BİZİMLE PARLA</span>
             </div>
             <p className="footer-description">
-              Where science meets creativity. Discover unique products inspired 
-              by the fascinating world of biology and medicine.
+              Bilimin yaratıcılıkla buluştuğu yer. Biyoloji ve tıp dünyasının
+              büyüleyici dünyasından ilham alan benzersiz ürünleri keşfedin.
             </p>
           </div>
-          
+
           <div className="footer-links">
             <div className="link-group">
-              <h4>Products</h4>
+              <h4>Ürünler</h4>
               <ul>
-                <li><a href="#products">Decorative Items</a></li>
-                <li><a href="#products">Educational Toys</a></li>
-                <li><a href="#products">Stationery</a></li>
-                <li><a href="#products">Accessories</a></li>
+                <li><Link to="/products">Dekoratif Ürünler</Link></li>
+                <li><Link to="/products">Eğitici Oyuncaklar</Link></li>
+                <li><Link to="/products">Kırtasiye</Link></li>
+                <li><Link to="/products">Aksesuarlar</Link></li>
               </ul>
             </div>
-            
+
             <div className="link-group">
-              <h4>Company</h4>
+              <h4>Şirket</h4>
               <ul>
-                <li><a href="#about">About Us</a></li>
-                <li><a href="#contact">Contact</a></li>
-                <li><a href="#">Privacy Policy</a></li>
-                <li><a href="#">Terms of Service</a></li>
+                <li><Link to="/hakkimizda">Hakkımızda</Link></li>
+                <li><Link to="/iletisim">İletişim</Link></li>
+                <li><Link to="/privacy">Gizlilik Politikası</Link></li>
+                <li><Link to="/terms">Hizmet Şartları</Link></li>
               </ul>
             </div>
-            
+
             <div className="link-group">
-              <h4>Follow Us</h4>
+              <h4>Bizi Takip Edin</h4>
               <ul>
-                <li><a href="#">Instagram</a></li>
-                <li><a href="#">Facebook</a></li>
-                <li><a href="#">Twitter</a></li>
-                <li><a href="#">Pinterest</a></li>
+                <li><a href="https://instagram.com" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+
               </ul>
             </div>
           </div>
         </div>
-        
+
         <div className="footer-bottom">
-          <p>&copy; 2024 Lüminesans. All rights reserved.</p>
+          <p>&copy; 2024 Lüminesans. Tüm hakları saklıdır.</p>
           <div className="footer-molecules">
             <div className="molecule-small"></div>
             <div className="molecule-small"></div>

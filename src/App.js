@@ -53,22 +53,6 @@ function App() {
     <Router>
       <Header />
 
-      <nav className="main-nav">
-        <div className="nav-container">
-          <Link to="/" className="nav-link">
-            Ana Sayfa
-          </Link>
-          <span className="nav-separator">|</span>
-          <Link to="/products" className="nav-link">
-            Ürünler
-          </Link>
-          <span className="nav-separator">|</span>
-          <Link to="/admin" className="nav-link">
-            Admin Panel
-          </Link>
-        </div>
-      </nav>
-
       <Routes>
         {/* Ana Sayfa Route'u */}
         <Route

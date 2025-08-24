@@ -40,7 +40,19 @@
 
 .nav {
   display: flex;
+  align-items: center;
+  flex-grow: 1;
+  justify-content: flex-end;
+  /* Navigasyon elemanlarını sağa yaslar */
+  gap: 3rem;
+  /* Ana linkler ve Instagram butonu arasına boşluk ekler */
+  /* Navigasyonun logodan sonra kalan tüm alanı kaplamasını sağlar */
+}
+
+.nav-main-links {
+  display: flex;
   gap: 2rem;
+  align-items: center;
 }
 
 .nav-link {
@@ -87,6 +99,40 @@
   transition: 0.3s;
 }
 
+.nav-action-links {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  /* margin-left: auto; Artık .nav tarafından yönetiliyor */
+  /* Bu, aksiyon linklerini sağa yaslar ve kaymayı düzeltir */
+}
+
+.instagram-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+  color: white;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.instagram-link:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  color: white;
+  /* nav-link hover rengini ezmek için */
+}
+
+/* nav-link'ten gelen alt çizgiyi Instagram butonu için kaldır */
+.instagram-link::after {
+  display: none !important;
+}
+
 @media (max-width: 768px) {
   .nav {
     position: absolute;
@@ -96,11 +142,34 @@
     background: var(--white);
     flex-direction: column;
     padding: 1rem;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     transform: translateY(-100%);
     opacity: 0;
     visibility: hidden;
     transition: all 0.3s ease;
+    justify-content: flex-start;
+    /* Mobil görünümde yaslamayı başa al */
+    gap: 0;
+    /* Mobil görünümde masaüstü boşluğunu sıfırla */
+    align-items: stretch;
+    /* Mobil menüde elemanları dikeyde yayar */
+  }
+
+  .nav-main-links,
+  .nav-action-links {
+    flex-direction: column;
+    gap: 0;
+    width: 100%;
+    margin-left: 0;
+    /* Mobil için sağa yaslamayı iptal et */
+    align-items: stretch;
+  }
+
+  .nav-action-links {
+    padding-top: 1rem;
+    margin-top: 1rem;
+    border-top: 1px solid var(--medium-gray);
+    /* Ana linklerle arasına çizgi ekle */
   }
 
   .nav-open {
@@ -120,5 +189,12 @@
 
   .nav-link:last-child {
     border-bottom: none;
+  }
+
+  .instagram-link {
+    padding: 0.8rem;
+    justify-content: center;
+    border-radius: 8px;
+    margin-top: 0.5rem;
   }
 }

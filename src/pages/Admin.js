@@ -8,7 +8,8 @@ const Admin = ({
     updateProduct,
     opportunities,
     addOpportunity,
-    removeOpportunity
+    removeOpportunity,
+    onLogout
 }) => {
     const [name, setName] = useState("");
     const [price, setPrice] = useState("");
@@ -34,7 +35,7 @@ const Admin = ({
         try {
             if (isEditing) {
                 // Güncelleme işlemi
-                await updateProduct(editingId, { // await eklendi
+                await updateProduct(editingId, { // await eklendi, token App.js'ten gönderilecek
                     id: editingId,
                     name,
                     price,
@@ -48,7 +49,7 @@ const Admin = ({
                 alert("Ürün başarıyla güncellendi!");
             } else {
                 // Yeni ürün ekleme
-                await addProduct({ // await eklendi
+                await addProduct({ // await eklendi, token App.js'ten gönderilecek
                     name, price, category, image, description, sophierUrl
                 });
                 alert("Ürün başarıyla eklendi!");
@@ -95,7 +96,7 @@ const Admin = ({
     const handleDelete = async (productId, productName) => {
         if (window.confirm(`"${productName}" ürününü silmek istediğinizden emin misiniz?`)) {
             try {
-                await removeProduct(productId);
+                await removeProduct(productId); // token App.js'ten gönderilecek
                 // Eğer silinen ürün düzenleme modundaysa, düzenleme modunu iptal et
                 if (editingId === productId) {
                     handleCancelEdit();
@@ -115,7 +116,7 @@ const Admin = ({
             return;
         }
         try {
-            await addOpportunity({ // await eklendi
+            await addOpportunity({ // await eklendi, token App.js'ten gönderilecek
                 imageUrl: newOpportunityUrl
             });
             setNewOpportunityUrl(''); // Formu temizle
@@ -129,7 +130,7 @@ const Admin = ({
     const handleRemoveOpportunity = async (id) => {
         if (window.confirm("Bu fırsat resmini silmek istediğinizden emin misiniz?")) {
             try {
-                await removeOpportunity(id);
+                await removeOpportunity(id); // token App.js'ten gönderilecek
                 alert("Fırsat resmi başarıyla silindi.");
             } catch (error) {
                 console.error("Fırsat silinirken hata oluştu:", error);
@@ -141,6 +142,14 @@ const Admin = ({
     return (
         <div className="admin-container">
             <h1 className="admin-header">Admin Panel</h1>
+            <div style={{ marginBottom: '2rem', textAlign: 'right' }}>
+                <button
+                    onClick={onLogout}
+                    className="admin-btn danger"
+                >
+                    Çıkış Yap
+                </button>
+            </div>
 
             <div className="admin-section">
                 <h2>Fırsat Slider'ı Yönetimi</h2>

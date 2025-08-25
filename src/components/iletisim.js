@@ -7,6 +7,8 @@ const Iletisim = () => {
         email: '',
         message: ''
     });
+    const [status, setStatus] = useState('');
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const handleChange = (e) => {
         setFormData({
@@ -15,10 +17,33 @@ const Iletisim = () => {
         });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Form gönderim işlemleri burada ele alınabilir
-        console.log('Form gönderildi:', formData);
+        setIsSubmitting(true);
+        setStatus('Gönderiliyor...');
+
+        try {
+            const response = await fetch('http://localhost:5001/api/contact', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+                setStatus(result.message);
+                setFormData({ name: '', email: '', message: '' }); // Formu temizle
+            } else {
+                throw new Error(result.message || 'Bir hata oluştu.');
+            }
+        } catch (error) {
+            setStatus(`Hata: ${error.message}`);
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     return (
@@ -90,7 +115,12 @@ const Iletisim = () => {
                                 required
                             ></textarea>
                         </div>
-                        <button type="submit" className="btn btn-primary">Mesaj Gönder</button>
+                        <button type="submit" className="btn btn-primary" disabled={isSubmitting}>
+                            {isSubmitting ? 'Gönderiliyor...' : 'Mesaj Gönder'}
+                        </button>
+                        {status && (
+                            <p className={`form-status ${status.startsWith('Hata') ? 'error' : 'success'}`}>{status}</p>
+                        )}
                     </form>
                 </div>
             </div>

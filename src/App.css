@@ -419,3 +419,21 @@
 .admin-list-item:last-child {
   border-bottom: none;
 }
+
+/* Stil direkt olarak Login.css dosyasında tanımlandığı için burada tekrar belirtmeye gerek yoktur */
+/* ===== LOGIN SAYFASI İÇİN EKLENEN STİLLER ===== */
+
+.login-container {
+  width: 400px;
+  margin: 100px auto;
+  padding: 20px;
+  background-color: var(--light-gray);
+  border: 1px solid var(--medium-gray);
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.08);
+}
+
+.login-container h2 {
+  text-align: center;
+  color: var(--primary-blue);
+}

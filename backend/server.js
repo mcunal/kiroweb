@@ -2,14 +2,27 @@ const express = require('express');
 const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
+const nodemailer = require('nodemailer'); // YENİ: Nodemailer'ı dahil et
+require('dotenv').config(); // YENİ: Ortam değişkenlerini yükle
 
 const app = express();
-const PORT = 5001; // Backend'in çalışacağı port
+const PORT = process.env.PORT || 5001; // Portu ortam değişkeninden veya varsayılan olarak al
 const DB_PATH = path.join(__dirname, 'db.json');
 
 // Middleware
 app.use(cors());
 app.use(express.json()); // Gelen JSON verilerini okumak için
+
+// YENİ: Nodemailer transporter'ı yapılandır
+const transporter = nodemailer.createTransport({
+    host: process.env.SMTP_HOST,
+    port: process.env.SMTP_PORT,
+    secure: process.env.SMTP_PORT == 465, // true for 465, false for other ports
+    auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+    },
+});
 
 // Veritabanı okuma/yazma yardımcı fonksiyonları
 const readDB = () => {
@@ -114,7 +127,45 @@ app.delete('/api/opportunities/:id', (req, res) => {
     }
 });
 
+// --- İLETİŞİM FORMU API ROTASI ---
+
+app.post('/api/contact', (req, res) => {
+    try {
+        const { name, email, message } = req.body;
+
+        if (!name || !email || !message) {
+            return res.status(400).json({ message: "Lütfen tüm alanları doldurun." });
+        }
+
+        // YENİ: E-posta gönderme seçenekleri
+        const mailOptions = {
+            from: process.env.EMAIL_USER, // Gönderen e-posta adresi
+            to: process.env.EMAIL_USER,   // Mesajların gideceği e-posta adresi (kendi adresin)
+            subject: `Yeni İletişim Formu Mesajı: ${name}`,
+            html: `
+                <h3>Yeni Mesaj</h3>
+                <p><strong>Gönderen:</strong> ${name}</p>
+                <p><strong>E-posta:</strong> ${email}</p>
+                <p><strong>Mesaj:</strong></p>
+                <p>${message}</p>
+            `,
+        };
+
+        // YENİ: E-postayı gönder
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                console.error("E-posta gönderme hatası:", error);
+                return res.status(500).json({ success: false, message: "Mesajınız gönderilemedi. Lütfen daha sonra tekrar deneyin." });
+            }
+            console.log('E-posta başarıyla gönderildi:', info.response);
+            res.status(200).json({ success: true, message: "Mesajınız başarıyla gönderildi! En kısa sürede size geri döneceğiz." });
+        });
+    } catch (error) {
+        console.error("İletişim formu işlenirken hata oluştu:", error);
+        res.status(500).json({ success: false, message: "Sunucu hatası: Mesajınız gönderilemedi." });
+    }
+});
 
 app.listen(PORT, () => {
     console.log(`Backend sunucusu http://localhost:${PORT} adresinde çalışıyor.`);
-});
+})

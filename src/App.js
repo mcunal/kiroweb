@@ -1,97 +1,146 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import "./App.css";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import './App.css';
 
-// Bileşenleri import ediyoruz
+// Page Components
 import Header from "./components/Header";
-import Hero from "./components/Hero";
 import Footer from "./components/Footer";
+import Hero from "./components/Hero";
 import Products from "./components/Products";
 import ProductsPage from "./components/ProductsPage";
 import Hakkimizda from "./components/Hakkimizda";
 import Iletisim from "./components/iletisim";
-import Admin from "./pages/Admin";
+import OpportunitiesSlider from "./components/OpportunitiesSlider"; // YENİ: Fırsatlar slider'ı
+import AdminPage from "./pages/Admin";
+
+// A simple component for the home page content
+const HomePage = ({ products, opportunities }) => (
+  <>
+    <OpportunitiesSlider opportunities={opportunities} />
+    <Hero products={products} />
+    <Products products={products} />
+    {/* You can add other sections like About, Contact here if you want them on the home page */}
+  </>
+);
+
+const API_URL = "http://localhost:5001/api"; // Backend sunucu adresimiz
 
 function App() {
-  const [products, setProducts] = useState(() => {
-    try {
-      const savedProducts = localStorage.getItem("products");
-      return savedProducts ? JSON.parse(savedProducts) : [];
-    } catch (error) {
-      console.error("Ürünler localStorage'dan okunurken bir hata oluştu", error);
-      return [];
-    }
-  });
+  const [products, setProducts] = useState([]);
+  const [opportunities, setOpportunities] = useState([]);
+  const [loading, setLoading] = useState(true);
 
+  // Verileri backend'den çek
   useEffect(() => {
-    localStorage.setItem("products", JSON.stringify(products));
-  }, [products]);
+    const fetchData = async () => {
+      try {
+        const productsRes = await fetch(`${API_URL}/products`);
+        const productsData = await productsRes.json();
+        setProducts(productsData);
 
-  const addProduct = (product) => {
-    setProducts((prevProducts) => [...prevProducts, product]);
+        const opportunitiesRes = await fetch(`${API_URL}/opportunities`);
+        const opportunitiesData = await opportunitiesRes.json();
+        setOpportunities(opportunitiesData);
+
+      } catch (error) {
+        console.error("Veri çekilirken hata oluştu:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
+
+  const addProduct = async (product) => {
+    const response = await fetch(`${API_URL}/products`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(product),
+    });
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`API Hatası: ${response.status} - ${errorText}`);
+    }
+    const newProduct = await response.json();
+    setProducts((prev) => [...prev, newProduct]);
   };
 
-  const removeProduct = (id) => {
-    setProducts((prevProducts) =>
-      prevProducts.filter((product) => product.id !== id)
-    );
+  const removeProduct = async (id) => {
+    const response = await fetch(`${API_URL}/products/${id}`, { method: 'DELETE' });
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`API Hatası: ${response.status} - ${errorText}`);
+    }
+    setProducts((prev) => prev.filter((product) => product.id !== id));
   };
 
-  const updateProduct = (productId, updatedProduct) => {
-    setProducts((prev) =>
-      prev.map((p) => (p.id === productId ? updatedProduct : p))
-    );
+  const updateProduct = async (productId, updatedProduct) => {
+    const response = await fetch(`${API_URL}/products/${productId}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(updatedProduct),
+    });
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`API Hatası: ${response.status} - ${errorText}`);
+    }
+    const data = await response.json();
+    setProducts((prev) => prev.map((p) => (p.id === productId ? { ...p, ...data } : p)));
   };
 
-  // Kategori filtreleme state'ini ProductsPage'e taşıdık.
-  // Burada artık ana sayfa için özel bir filtreleme mantığına ihtiyacımız yok,
-  // çünkü ana sayfada sadece en son eklenen veya öne çıkan ürünler gösterilebilir.
-  // Bu örnekte, Products bileşeni tüm ürünleri gösterecek, ancak isterseniz
-  // bunu en son eklenen 5 ürün olarak da değiştirebilirsiniz.
+  const addOpportunity = async (opportunityData) => {
+    const response = await fetch(`${API_URL}/opportunities`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(opportunityData),
+    });
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`API Hatası: ${response.status} - ${errorText}`);
+    }
+    const newOpportunity = await response.json();
+    setOpportunities((prev) => [...prev, newOpportunity]);
+  };
+
+  const removeOpportunity = async (id) => {
+    const response = await fetch(`${API_URL}/opportunities/${id}`, { method: 'DELETE' });
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`API Hatası: ${response.status} - ${errorText}`);
+    }
+    setOpportunities((prev) => prev.filter((op) => op.id !== id));
+  };
 
   return (
     <Router>
       <Header />
-
-      <Routes>
-        {/* Ana Sayfa Route'u */}
-        <Route
-          path="/"
-          element={
-            <>
-              <Hero products={products} />
-              {/* Ana sayfadaki Products bölümü artık filtreleme ve kategori seçimini içermiyor */}
-              <Products products={products} />
-            </>
-          }
-        />
-
-        {/* Yeni Ürünler Sayfası Route'u */}
-        <Route
-          path="/products"
-          element={<ProductsPage products={products} />}
-        />
-
-        {/* Yeni Hakkımızda Sayfası Route'u */}
-        <Route path="/hakkimizda" element={<Hakkimizda />} />
-
-        {/* Yeni İletişim Sayfası Route'u */}
-        <Route path="/iletisim" element={<Iletisim />} />
-
-        {/* Admin Sayfası Route'u */}
-        <Route
-          path="/admin"
-          element={
-            <Admin
-              products={products}
-              addProduct={addProduct}
-              removeProduct={removeProduct}
-              updateProduct={updateProduct}
-            />
-          }
-        />
-      </Routes>
-
+      <main>
+        <Routes>
+          <Route path="/" element={
+            loading
+              ? <div className="loading-screen">Yükleniyor...</div>
+              : <HomePage products={products} opportunities={opportunities} />
+          } />
+          <Route path="/products" element={<ProductsPage products={products} />} />
+          <Route path="/hakkimizda" element={<Hakkimizda />} />
+          <Route path="/iletisim" element={<Iletisim />} />
+          {/* Admin sayfası artık herkese açık */}
+          <Route
+            path="/admin"
+            element={
+              <AdminPage
+                products={products}
+                addProduct={addProduct}
+                removeProduct={removeProduct}
+                updateProduct={updateProduct}
+                opportunities={opportunities}
+                addOpportunity={addOpportunity}
+                removeOpportunity={removeOpportunity}
+              />
+            }
+          />
+        </Routes>
+      </main>
       <Footer />
     </Router>
   );

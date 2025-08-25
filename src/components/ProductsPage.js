@@ -39,7 +39,7 @@ const ProductsPage = ({ products }) => {
                                 className={`category-btn ${selectedCategory === category ? "active" : ""
                                     }`}
                             >
-                                {category === "all" ? "Tümü" : category}
+                                <span>{category === "all" ? "Tümü" : category}</span>
                             </button>
                         ))}
                     </div>

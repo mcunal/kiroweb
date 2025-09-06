@@ -166,6 +166,22 @@ app.post('/api/contact', (req, res) => {
     }
 });
 
+// Yeni ürün ekle
+app.post('/api/login', (req, res) => {
+    try {
+        console.log(req.body);
+        if( req.body.username === process.env.ADMIN_USER && req.body.password === process.env.ADMIN_PASS ){
+            return res.status(200).send();
+        }
+        else 
+            return res.status(401).json({ message: "Geçersiz kullanıcı adı veya şifre." });
+    } catch (error) {
+        console.error("login error", error);
+        res.status(500).json({ message: "login error" });
+    }
+});
+
 app.listen(PORT, () => {
     console.log(`Backend sunucusu http://localhost:${PORT} adresinde çalışıyor.`);
 })
+

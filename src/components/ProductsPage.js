@@ -64,7 +64,7 @@ const ProductsPage = ({ products }) => {
                                         rel="noopener noreferrer"
                                         className="btn btn-primary"
                                     >
-                                        Satın Al
+                                        İncele
                                     </a>
                                 )}
                             </div>

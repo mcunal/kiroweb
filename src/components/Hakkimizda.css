@@ -33,7 +33,7 @@
 }
 
 .hakkimizda-content strong {
-    color: #e63946;
+    color: var(--primary-blue);
     font-weight: 600;
 }
 

@@ -30,12 +30,11 @@ const Footer = () => {
             </div>
 
             <div className="link-group">
-              <h4>Şirket</h4>
+              <h4>Lüminesans</h4>
               <ul>
                 <li><Link to="/hakkimizda">Hakkımızda</Link></li>
                 <li><Link to="/iletisim">İletişim</Link></li>
-                <li><Link to="/privacy">Gizlilik Politikası</Link></li>
-                <li><Link to="/terms">Hizmet Şartları</Link></li>
+                
               </ul>
             </div>
 
@@ -50,7 +49,7 @@ const Footer = () => {
         </div>
 
         <div className="footer-bottom">
-          <p>&copy; 2024 Lüminesans. Tüm hakları saklıdır.</p>
+          
           <div className="footer-molecules">
             <div className="molecule-small"></div>
             <div className="molecule-small"></div>

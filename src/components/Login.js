@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Login.css';
 
-const Login = ({ onLogin }) => {
+const Login = ( { setIsLoggedIn } ) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -13,23 +13,19 @@ const Login = ({ onLogin }) => {
         e.preventDefault();
         setError('');
         setIsLoading(true);
-
+        
         try {
             const response = await fetch('http://localhost:5001/api/login', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ username, password }),
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password })
             });
 
-            const data = await response.json();
 
-            if (!response.ok) {
-                throw new Error(data.message || 'Giriş başarısız oldu');
+            if (!response.status === 200) {
+                throw new Error('Giriş başarısız oldu');
             }
-
-            onLogin(data.accessToken);
+            setIsLoggedIn(true); // Giriş yapıldığını üst bileşene bildir
             navigate('/admin'); // Giriş başarılıysa admin sayfasına yönlendir
 
         } catch (error) {

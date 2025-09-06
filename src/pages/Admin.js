@@ -8,8 +8,7 @@ const Admin = ({
     updateProduct,
     opportunities,
     addOpportunity,
-    removeOpportunity,
-    onLogout
+    removeOpportunity
 }) => {
     const [name, setName] = useState("");
     const [price, setPrice] = useState("");
@@ -144,7 +143,7 @@ const Admin = ({
             <h1 className="admin-header">Admin Panel</h1>
             <div style={{ marginBottom: '2rem', textAlign: 'right' }}>
                 <button
-                    onClick={onLogout}
+                    onClick={console.log("Çıkış yapıldı")} 
                     className="admin-btn danger"
                 >
                     Çıkış Yap

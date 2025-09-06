@@ -7,7 +7,7 @@ const Hakkimizda = () => {
             <div className="hakkimizda-content">
                 <h1 className="hakkimizda-title">Biz Kimiz?</h1>
                 <p>
-                    Lüminesans, <strong>Karadeniz Teknik Üniversitesi (KTÜ)</strong> öğrencilerinin bir araya gelerek başlattığı bir e-ticaret girişimidir. Bilime ve sanata olan tutkumuzu, herkesin erişebileceği özgün ve yaratıcı ürünlere dönüştürme hayaliyle yola çıktık.
+                    Lüminesans, <strong>Karadeniz Teknik Üniversitesi (KTÜ) </strong> öğrencilerinin bir araya gelerek başlattığı bir e-ticaret girişimidir. Bilime ve sanata olan tutkumuzu, herkesin erişebileceği özgün ve yaratıcı ürünlere dönüştürme hayaliyle yola çıktık.
                 </p>
                 <p>
                     Ekibimiz, farklı disiplinlerden gelen genç ve dinamik öğrencilerden oluşmaktadır. Biyoloji, tıp, genetik ve eczacılık gibi alanlardaki bilimsel harikaları, estetik ve işlevsellikle birleştirerek dekoratif ürünler, eğitici oyuncaklar ve kırtasiye malzemeleri tasarlıyoruz. Amacımız, bilimin soğuk ve karmaşık yüzünü, sıcak, anlaşılır ve ilham verici bir hale getirmektir.

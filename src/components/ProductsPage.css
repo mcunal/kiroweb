@@ -6,6 +6,7 @@
     text-align: center;
     font-size: 2.5rem;
     margin-bottom: 40px;
+    color: var(--primary-blue);
 }
 
 .controls {
@@ -100,9 +101,34 @@
     margin-bottom: 15px;
 }
 
+.product-card .product-title {
+    margin-bottom: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.product-card .product-price {
+    margin-bottom: 8px;
+    font-size: 1.05rem;
+    font-weight: 500;
+}
+
+.product-card .product-category {
+    margin-bottom: 8px;
+    font-size: 1.05rem;
+    font-weight: 500;
+}
+
 .no-products {
     text-align: center;
     grid-column: 1 / -1;
     font-size: 1.2rem;
     color: #555;
+}
+
+/* Ürün kartındaki "İncele" butonunu küçültmek için */
+.product-card .btn-primary {
+    padding: 8px 18px;
+    font-size: 0.9rem;
+    font-weight: 500;
 }

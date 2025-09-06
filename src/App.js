@@ -14,11 +14,13 @@ import OpportunitiesSlider from "./components/OpportunitiesSlider"; // YENİ: F�
 import Login from "./components/Login"; // YENİ: Login bileşenini import et
 import AdminPage from "./pages/Admin";
 
+import { addProduct, removeProduct, updateProduct, addOpportunity, removeOpportunity } from "./services/productService";
+
 // A simple component for the home page content
-const HomePage = ({ products, opportunities }) => (
+const HomePage = ({ products, opportunities, sliderData }) => (
   <>
     <OpportunitiesSlider opportunities={opportunities} />
-    <Hero products={products} />
+    <Hero sliderData={sliderData} />
     <Products products={products} />
     {/* You can add other sections like About, Contact here if you want them on the home page */}
   </>
@@ -26,38 +28,28 @@ const HomePage = ({ products, opportunities }) => (
 
 const API_URL = "http://localhost:5001/api"; // Backend sunucu adresimiz
 
-// YENİ: Access token'ı localStorage'dan okuyan yardımcı fonksiyon
-function getAccessToken() {
-  return localStorage.getItem('accessToken');
-}
-
-// YENİ: API istekleri için kimlik doğrulama başlığını oluşturan yardımcı fonksiyon
-const getAuthHeaders = () => ({
-  'Authorization': `Bearer ${getAccessToken()}`,
-  'Content-Type': 'application/json'
-});
-
 function App() {
   const [products, setProducts] = useState([]);
   const [opportunities, setOpportunities] = useState([]);
+  const [sliderData, setSliderData] = useState([]);
   const [loading, setLoading] = useState(true);
   // YENİ: Kullanıcının giriş yapıp yapmadığını tutan state
-  const [isLoggedIn, setIsLoggedIn] = useState(!!getAccessToken());
+ const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  // YENİ: Sayfa yüklendiğinde token'ı kontrol et
-  useEffect(() => { setIsLoggedIn(!!getAccessToken()); }, []);
+ 
 
   // Verileri backend'den çek
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const productsRes = await fetch(`${API_URL}/products`);
-        const productsData = await productsRes.json();
-        setProducts(productsData);
+        // server.js yerine doğrudan public/db.json dosyasını çekiyoruz
+        const response = await fetch('https://luminesans.com/data/db.json');
+        console.log("a");
+        const data = await response.json();
 
-        const opportunitiesRes = await fetch(`${API_URL}/opportunities`);
-        const opportunitiesData = await opportunitiesRes.json();
-        setOpportunities(opportunitiesData);
+        setProducts(data.products || []);
+        setOpportunities(data.opportunities || []);
+        setSliderData(data.slider || []);
 
       } catch (error) {
         console.error("Veri çekilirken hata oluştu:", error);
@@ -68,85 +60,6 @@ function App() {
     fetchData();
   }, []);
 
-  const addProduct = async (product) => {
-    const response = await fetch(`${API_URL}/products`, {
-      method: 'POST',
-      headers: getAuthHeaders(), // Token ile istek gönder
-      body: JSON.stringify(product),
-    });
-    if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(`API Hatası: ${response.status} - ${errorText}`);
-    }
-    const newProduct = await response.json();
-    setProducts((prev) => [...prev, newProduct]);
-  };
-
-  const removeProduct = async (id) => {
-    const response = await fetch(`${API_URL}/products/${id}`, {
-      method: 'DELETE',
-      headers: getAuthHeaders() // Token ile istek gönder
-    });
-    if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(`API Hatası: ${response.status} - ${errorText}`);
-    }
-    setProducts((prev) => prev.filter((product) => product.id !== id));
-  };
-
-  const updateProduct = async (productId, updatedProduct) => {
-    const response = await fetch(`${API_URL}/products/${productId}`, {
-      method: 'PUT',
-      headers: getAuthHeaders(), // Token ile istek gönder
-      body: JSON.stringify(updatedProduct),
-    });
-    if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(`API Hatası: ${response.status} - ${errorText}`);
-    }
-    const data = await response.json();
-    setProducts((prev) => prev.map((p) => (p.id === productId ? { ...p, ...data } : p)));
-  };
-
-  const addOpportunity = async (opportunityData) => {
-    const response = await fetch(`${API_URL}/opportunities`, {
-      method: 'POST',
-      headers: getAuthHeaders(), // Token ile istek gönder
-      body: JSON.stringify(opportunityData),
-    });
-    if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(`API Hatası: ${response.status} - ${errorText}`);
-    }
-    const newOpportunity = await response.json();
-    setOpportunities((prev) => [...prev, newOpportunity]);
-  };
-
-  const removeOpportunity = async (id) => {
-    const response = await fetch(`${API_URL}/opportunities/${id}`, {
-      method: 'DELETE',
-      headers: getAuthHeaders() // Token ile istek gönder
-    });
-    if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(`API Hatası: ${response.status} - ${errorText}`);
-    }
-    setOpportunities((prev) => prev.filter((op) => op.id !== id));
-  };
-
-  // YENİ: Giriş yapma fonksiyonu (Login bileşeni tarafından çağrılacak)
-  const handleLogin = (token) => {
-    localStorage.setItem('accessToken', token);
-    setIsLoggedIn(true);
-  };
-
-  // YENİ: Çıkış yapma fonksiyonu
-  const handleLogout = () => {
-    localStorage.removeItem('accessToken');
-    setIsLoggedIn(false);
-    // İsteğe bağlı olarak kullanıcıyı ana sayfaya yönlendirebilirsin: navigate('/');
-  };
-
   return (
     <Router>
       <Header />
@@ -156,7 +69,7 @@ function App() {
           <Route path="/" element={
             loading
               ? <div className="loading-screen">Yükleniyor...</div>
-              : <HomePage products={products} opportunities={opportunities} />
+              : <HomePage products={products} opportunities={opportunities} sliderData={sliderData} />
           } />
           {/* Ürünler Sayfası */}
           <Route path="/products" element={<ProductsPage products={products} />} />
@@ -166,13 +79,13 @@ function App() {
           <Route path="/iletisim" element={<Iletisim />} />
 
           {/* YENİ: Giriş Sayfası */}
-          <Route path="/login" element={isLoggedIn ? <Navigate to="/admin" /> : <Login onLogin={handleLogin} />} />
+          <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
 
           {/* YENİ: Admin sayfası korumalı */}
           <Route
             path="/admin"
             element={
-              true ? (
+              isLoggedIn ? (
                 <AdminPage
                   products={products}
                   addProduct={addProduct}
@@ -181,7 +94,7 @@ function App() {
                   opportunities={opportunities}
                   addOpportunity={addOpportunity}
                   removeOpportunity={removeOpportunity}
-                  onLogout={handleLogout} // onLogout prop'unu ekledik
+                   // onLogout prop'unu ekledik
                 />
               ) : (
                 <Navigate to="/login" replace /> // Giriş yapılmamışsa login sayfasına yönlendir

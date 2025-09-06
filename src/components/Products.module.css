@@ -5,7 +5,7 @@
 }
 
 .container {
-  max-width: 1200px;
+  max-width: 1360px; /* 4 ürün kartının oklarla birlikte sığması için genişletildi */
   margin: 0 auto;
   padding: 0 15px;
 }
@@ -13,12 +13,20 @@
 .section-title {
   text-align: center;
   font-size: 2.5rem;
-  margin-bottom: 40px;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 1.5rem;
+  color: var(--primary-blue);
 }
 
 /* --- */
 
 /* === SLIDER: TÜM EKRANLARDA GEÇERLİ ANA STİLLER === */
+.slider-container {
+  position: relative;
+  padding: 0 50px; /* Oklar için yanlarda boşluk bırakıldı */
+}
+
 .products-slider {
   display: flex;
   overflow-x: auto;
@@ -69,7 +77,7 @@
 
 .product-price {
   font-size: 1.3rem;
-  color: #e63946;
+  color: var(--primary-blue);
   font-weight: bold;
   margin-bottom: 10px;
 }
@@ -97,13 +105,57 @@
 
 /* --- */
 
+/* === SLIDER OKLARI === */
+.slider-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  background-color: rgba(255, 255, 255, 0.9);
+  border: 1px solid #ddd;
+  width: 45px;
+  height: 45px;
+  cursor: pointer;
+  border-radius: 50%;
+  font-size: 2rem;
+  color: var(--primary-blue);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  line-height: 1;
+}
+
+.slider-arrow:hover {
+  background-color: white;
+  transform: translateY(-50%) scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.arrow-left {
+  left: 0;
+}
+
+.arrow-right {
+  right: 0;
+}
+
 /* === MOBİL UYUMLULUK: SADECE 768PX ALTINDAKİ EKRANLAR İÇİN DEĞİŞİKLİKLER === */
 @media (max-width: 768px) {
+  .slider-container {
+    padding: 0; /* Mobilde oklar gizli, boşluk kaldırıldı */
+  }
+
   .product-slide {
     flex: 0 0 80% !important;
   }
 
   .product-img {
     height: 160px;
+  }
+
+  .slider-arrow {
+    display: none; /* Mobilde okları gizle */
   }
 }
